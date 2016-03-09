@@ -292,41 +292,40 @@ public class RepositoryBeanTools extends GenericService implements RepositoryBea
 	 * @throws IllegalArgumentException
 	 * @throws IllegalAccessException
 	 */
-	private final List wrapList(Object bean, Method setter, List pList, String reference) throws IllegalAccessException, IllegalArgumentException, InvocationTargetException {
-		if (isLoggingDebug()) {
-			logDebug("Start: wrapList()");
-		}
+	 private final List wrapList(Object bean, Method setter, List pList, String reference) throws IllegalAccessException, IllegalArgumentException, InvocationTargetException {
+ 		if (isLoggingDebug()) {
+ 			logDebug("Start: wrapList()");
+ 		}
 
-		List list = new ArrayList();
+ 		List<Object> list = new ArrayList<Object>();
 
-		for (Object o : pList) {
-			if (o instanceof RepositoryItem) {
-				RepositoryItem ri = (RepositoryItem) o;
+ 		for (Object o : pList) {
+ 			if (o instanceof RepositoryItem) {
+ 				RepositoryItem ri = (RepositoryItem) o;
 
-				if (reference != null && getItemDescriptorToPojoMap().containsKey(reference)) {
-					// Map the entire RepositoryItem to Pojo
-					Object innerBean = null;
-					innerBean = repositoryItemToPojo(ri);
-					list.add(innerBean);
-				}
-				else {
-					list.add(ri.getRepositoryId());
-					if (isLoggingDebug())
-						logDebug("Adding " + ri.getRepositoryId() + " to list");
-				}
-				setter.invoke(bean, list);
-			}
-			else {
-				setter.invoke(bean, o);
-			}
-		}
+ 				if (reference != null && getItemDescriptorToPojoMap().containsKey(reference)) {
+ 					// Map the entire RepositoryItem to Pojo
+ 					Object innerBean = null;
+ 					innerBean = repositoryItemToPojo(ri);
+ 					list.add(innerBean);
+ 				}
+ 				else {
+ 					list.add(ri.getRepositoryId());
+ 					if (isLoggingDebug())
+ 						logDebug("Adding " + ri.getRepositoryId() + " to list");
+ 				}
+ 			}
+ 			else {
+ 				list.add(o);
+ 			}
+ 		}
+ 		setter.invoke(bean, list);
+ 		if (isLoggingDebug()) {
+ 			logDebug("End: wrapList()");
+ 		}
+ 		return list;
+ 	}
 
-		if (isLoggingDebug()) {
-			logDebug("End: wrapList()");
-		}
-
-		return list;
-	}
 
 	/**
 	 * Wraps a RepositoryItem set property to a set where the value is the repositoryId.
@@ -335,40 +334,39 @@ public class RepositoryBeanTools extends GenericService implements RepositoryBea
 	 * @throws IllegalArgumentException
 	 * @throws IllegalAccessException
 	 */
-	private final Set wrapSet(Object bean, Method setter, Set pSet, String reference) throws IllegalAccessException, IllegalArgumentException, InvocationTargetException {
-		if (isLoggingDebug()) {
-			logDebug("Start: wrapSet()");
-		}
+	 private final Set wrapSet(Object bean, Method setter, Set pSet, String reference) throws IllegalAccessException, IllegalArgumentException, InvocationTargetException {
+ 		if (isLoggingDebug()) {
+ 			logDebug("Start: wrapSet()");
+ 		}
 
-		Set set = new HashSet();
+ 		Set<Object> set = new HashSet<Object>();
 
-		for (Object o : pSet) {
-			if (o instanceof RepositoryItem) {
-				RepositoryItem ri = (RepositoryItem) o;
+ 		for (Object o : pSet) {
+ 			if (o instanceof RepositoryItem) {
+ 				RepositoryItem ri = (RepositoryItem) o;
 
-				if (reference != null && getItemDescriptorToPojoMap().containsKey(reference)) {
-					// Map the entire RepositoryItem to Pojo
-					Object innerBean = null;
-					innerBean = repositoryItemToPojo(ri);
-					set.add(innerBean);
-				}
-				else {
-					set.add(ri.getRepositoryId());
-					if (isLoggingDebug())
-						logDebug("Adding " + ri.getRepositoryId() + " to list");
-				}
-				setter.invoke(bean, set);
-			}
-			else {
-				setter.invoke(bean, o);
-			}
-		}
-		if (isLoggingDebug()) {
-			logDebug("End: wrapSet()");
-		}
-
-		return set;
-	}
+ 				if (reference != null && getItemDescriptorToPojoMap().containsKey(reference)) {
+ 					// Map the entire RepositoryItem to Pojo
+ 					Object innerBean = null;
+ 					innerBean = repositoryItemToPojo(ri);
+ 					set.add(innerBean);
+ 				}
+ 				else {
+ 					set.add(ri.getRepositoryId());
+ 					if (isLoggingDebug())
+ 						logDebug("Adding " + ri.getRepositoryId() + " to list");
+ 				}
+ 			}
+ 			else {
+ 				set.add(o);
+ 			}
+ 		}
+ 		if (isLoggingDebug()) {
+ 			logDebug("End: wrapSet()");
+ 		}
+ 		setter.invoke(bean, set);
+ 		return set;
+ 	}
 
 	/**
 	 * Wraps a RepositoryItem map property to a map where the value is the repositoryId.
